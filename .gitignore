@@ -13,3 +13,16 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Mengabaikan folder node_modules
+node_modules/
+
+# Mengabaikan folder build atau dist
+dist/
+build/
+
+# Mengabaikan semua file log
+*.log
+
+# Mengabaikan file environment (jika ada)
+.env

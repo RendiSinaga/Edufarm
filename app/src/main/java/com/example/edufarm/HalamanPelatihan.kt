@@ -2,7 +2,9 @@ package com.example.edufarm
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,22 +14,23 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,29 +43,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberAsyncImagePainter
-import com.example.edufarm.data.model.Kategori
+import com.example.edufarm.navigation.Routes
 import com.example.edufarm.ui.components.BottomNavigationBar
 import com.example.edufarm.ui.components.SearchBar
 import com.example.edufarm.ui.theme.EdufarmTheme
 import com.example.edufarm.ui.theme.poppinsFontFamily
-import com.example.edufarm.viewModel.PelatihanViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun PelatihanScreen(
     navController: NavController,
-    modifier: Modifier = Modifier,
-    pelatihanViewModel: PelatihanViewModel = viewModel() // Tambahkan ViewModel
+    modifier: Modifier = Modifier
 ) {
-    val pelatihanList by pelatihanViewModel.pelatihanList.collectAsState()
-    val errorMessage by pelatihanViewModel.errorMessage.collectAsState()
     val selectedItem = remember { mutableStateOf("Pelatihan") }
     val systemUiController = rememberSystemUiController()
     val topBarColor = colorResource(id = R.color.background)
@@ -72,7 +70,6 @@ fun PelatihanScreen(
             color = topBarColor,
             darkIcons = true
         )
-        pelatihanViewModel.fetchPelatihan() // Memuat data saat screen dibuka
     }
 
     Scaffold(
@@ -100,33 +97,24 @@ fun PelatihanScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
                 SearchBar(placeholder = "Cari Pelatihan")
-//                Text(
-//                    text = "Kategori",
-//                    fontFamily = poppinsFontFamily,
-//                    fontWeight = FontWeight.SemiBold,
-//                    fontSize = 14.sp,
-//                    modifier = Modifier.padding(top = 8.dp)
-//                )
-//
-//                Spacer(modifier = Modifier.height(12.dp))
-////                KategoriChips() // Tidak diubah
-////                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Kategori",
+                    fontFamily = poppinsFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
 
-                Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+                KategoriChips()
+                Spacer(modifier = Modifier.height(16.dp))
 
-                if (errorMessage != null) {
-                    Text(
-                        text = errorMessage ?: "Error tidak diketahui",
-                        color = MaterialTheme.colorScheme.error
-                    )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(pelatihanList) { pelatihan ->
-                            CardPelatihanKategori(navController, pelatihan)
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(5) {
+                        CardPelatihanKategori(navController)
                     }
                 }
             }
@@ -134,77 +122,72 @@ fun PelatihanScreen(
     }
 }
 
+@Composable
+fun KategoriChips() {
+    val categories = listOf("Kacang Tanah", "Kacang Polong", "Jagung", "Gandum", "Kedelai")
+    var selectedCategory by remember { mutableStateOf(categories[0]) }
 
-//@Composable
-//fun KategoriChips() {
-//    val categories = listOf("Kacang Tanah", "Kacang Polong", "Jagung", "Gandum", "Kedelai")
-//    var selectedCategory by remember { mutableStateOf(categories[0]) }
-//
-//    Row(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .horizontalScroll(rememberScrollState()),
-//        horizontalArrangement = Arrangement.spacedBy(14.dp)
-//    ) {
-//        categories.forEach { category ->
-//            Box(
-//                modifier = Modifier
-//                    .background(
-//                        color = if (category == selectedCategory) colorResource(R.color.green)
-//                        else colorResource(R.color.white),
-//                        shape = RoundedCornerShape(6.dp)
-//                    )
-//                    .clickable { selectedCategory = category }
-//                    .border(
-//                        width = 1.dp,
-//                        color = colorResource(R.color.green),
-//                        shape = RoundedCornerShape(6.dp)
-//                    )
-//                    .padding(horizontal = 16.dp, vertical = 4.dp)
-//            ) {
-//                Text(
-//                    text = category,
-//                    color = if (category == selectedCategory) colorResource(R.color.white)
-//                    else colorResource(R.color.gray_bookmark),
-//                    fontSize = 10.sp,
-//                    fontWeight = FontWeight.Medium,
-//                    fontFamily = poppinsFontFamily,
-//                    lineHeight = 20.sp,
-//                    letterSpacing = (-0.24).sp
-//                )
-//            }
-//        }
-//    }
-//}
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        categories.forEach { category ->
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = if (category == selectedCategory) colorResource(R.color.green)
+                        else colorResource(R.color.white),
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .clickable { selectedCategory = category }
+                    .border(
+                        width = 1.dp,
+                        color = colorResource(R.color.green),
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = category,
+                    color = if (category == selectedCategory) colorResource(R.color.white)
+                    else colorResource(R.color.gray_bookmark),
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = poppinsFontFamily,
+                    lineHeight = 20.sp,
+                    letterSpacing = (-0.24).sp
+                )
+            }
+        }
+    }
+}
 
 @Composable
-fun CardPelatihanKategori(
-    navController: NavController,
-    pelatihan: Kategori // Menambahkan parameter untuk mengambil data kategori dari backend
-) {
+private fun CardPelatihanKategori(navController: NavController) {
     var isBookmarked by remember { mutableStateOf(false) }
+    val progressCurrent = 1
+    val progressTotal = 6
+    val progressFraction = progressCurrent.toFloat() / progressTotal.toFloat()
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(260.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.white))
     ) {
         Column {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(160.dp)
+                    .height(140.dp)
                     .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(
-                        model = pelatihan.gambar ?: "https://example.com/default_image.jpg", // Gambar fallback jika gambar null
-                        placeholder = painterResource(R.drawable.petani), // Gambar placeholder
-                        error = painterResource(R.drawable.petani) // Gambar error jika gagal memuat gambar
-                    ),
+                    painter = painterResource(id = R.drawable.petani),
                     contentDescription = "Deskripsi Gambar",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -212,8 +195,6 @@ fun CardPelatihanKategori(
                         .padding(horizontal = 10.dp, vertical = 10.dp)
                         .clip(RoundedCornerShape(16.dp))
                 )
-
-
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -236,13 +217,13 @@ fun CardPelatihanKategori(
                 }
             }
 
-            // Menampilkan teks dan tombol berdasarkan data dari backend
-            Column(modifier = Modifier
-                .padding(horizontal = 15.dp)
-                .padding(top = 8.dp)
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+                    .padding(top = 8.dp)
             ) {
                 Text(
-                    text = pelatihan.nama_kategori, // Mengambil nama kategori dari backend
+                    text = "Pelatihan Menanam Kacang Tanah",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = poppinsFontFamily,
@@ -250,7 +231,7 @@ fun CardPelatihanKategori(
                 )
 
                 Text(
-                    text = pelatihan.penjelasan, // Mengambil penjelasan kategori dari backend
+                    text = "Materi ini akan membahas cara menanam kacang tanah dari awal sampai akhir",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = poppinsFontFamily,
@@ -265,10 +246,7 @@ fun CardPelatihanKategori(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Button(
-                        onClick = {
-                            // Pastikan kategori_id yang benar dikirim
-                            navController.navigate("halamanSubMateri/${pelatihan.kategori_id}")
-                        },
+                        onClick = { navController.navigate(Routes.HALAMAN_SUB_MATERI) },
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green)),
                         modifier = Modifier
@@ -284,7 +262,40 @@ fun CardPelatihanKategori(
                             fontWeight = FontWeight(500),
                         )
                     }
+                    Text(
+                        text = "Progres Materi",
+                        fontSize = 11.sp,
+                        fontFamily = poppinsFontFamily,
+                        fontWeight = FontWeight.W400,
+                        color = Color.Black,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                            .offset(x = 15.dp)
+                    )
 
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                    ) {
+                        CircularProgressIndicator(
+                            progress = {
+                                progressFraction // Perbaikan di sini juga
+                            },
+                            modifier = Modifier
+                                .width(44.dp)
+                                .height(44.dp),
+                            color = colorResource(id = R.color.green),
+                            strokeWidth = 4.dp,
+                            trackColor = ProgressIndicatorDefaults.circularIndeterminateTrackColor,
+                        )
+                        Text(
+                            text = "$progressCurrent/$progressTotal",
+                            fontSize = 10.sp,
+                            fontFamily = poppinsFontFamily,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                    }
                 }
             }
         }

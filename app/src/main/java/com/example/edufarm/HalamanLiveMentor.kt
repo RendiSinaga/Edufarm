@@ -53,7 +53,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun LiveMentorScreen(
-    navController: NavController, modifier: Modifier = Modifier
+    navController: NavController
 ) {
     val selectedItem = remember { mutableStateOf("Live Mentor") }
     val systemUiController = rememberSystemUiController()
@@ -66,14 +66,15 @@ fun LiveMentorScreen(
         )
     }
     Scaffold(
-        modifier = modifier,
-        bottomBar = { BottomNavigationBar(navController, selectedItem) }) { paddingValues ->
+        modifier = Modifier,
+        bottomBar = { BottomNavigationBar(navController, selectedItem) })
+    { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(color = colorResource(R.color.background))
-                .padding(start = 35.dp, end = 35.dp, top = 5.dp)
+                .padding(horizontal = 35.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
@@ -347,14 +348,12 @@ fun CardLiveMentor() {
 }
 
 
-
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewLiveMentorScreen() {
     EdufarmTheme {
         LiveMentorScreen(
-            navController = rememberNavController(), modifier = Modifier
+            navController = rememberNavController()
         )
     }
 }

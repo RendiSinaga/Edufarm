@@ -211,9 +211,6 @@ fun CardLiveScrollable() {
     }
 }
 
-
-
-
 @Composable
 fun CardLive(session: LiveSession) {
     var showDialog by remember { mutableStateOf(false) }
@@ -343,7 +340,6 @@ fun CardLive(session: LiveSession) {
         )
     }
 }
-
 
 @Composable
 fun KategoriBertani() {
@@ -513,7 +509,7 @@ fun InfoCard(hai: String, title: String, deskripsi: String, navController: NavCo
                 modifier = Modifier.offset(y = (-6).dp)
             )
             SearchBarBeranda(placeholder = "Cari Pelatihan"
-            ){ query -> //untuk logika pencarian nya ni
+            ){ query ->
 
                 println("query dari info card: $query")
             }

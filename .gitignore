@@ -26,3 +26,19 @@ build/
 
 # Mengabaikan file environment (jika ada)
 .env
+
+# File video besar
+*.mp4
+
+# File gambar besar
+*.png
+*.jpg
+
+# Font besar
+*.ttf
+*.otf
+
+# Build dan dependensi (jika ada)
+node_modules/
+build/
+dist/

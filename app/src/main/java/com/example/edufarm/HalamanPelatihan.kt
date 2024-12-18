@@ -93,16 +93,6 @@ fun PelatihanScreen(
                     modifier = Modifier.padding(top = 8.dp)
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
-                SearchBar(placeholder = "Cari Pelatihan")
-                Text(
-                    text = "Kategori",
-                    fontFamily = poppinsFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-
                 Spacer(modifier = Modifier.height(28.dp))
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -254,7 +244,6 @@ private fun CardPelatihanKategori(navController: NavController) {
         }
     }
 }
-
 
 
 @Preview(showBackground = true)

@@ -72,9 +72,9 @@ fun LiveMentorScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .background(color = colorResource(R.color.background))
-                .padding(horizontal = 35.dp)
+                .padding(paddingValues)
+                .padding(start = 35.dp, end = 35.dp, top = 5.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             Text(

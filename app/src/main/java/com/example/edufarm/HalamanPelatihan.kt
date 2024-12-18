@@ -58,8 +58,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun PelatihanScreen(
-    navController: NavController,
-    modifier: Modifier = Modifier
+    navController: NavController
 ) {
     val selectedItem = remember { mutableStateOf("Pelatihan") }
     val systemUiController = rememberSystemUiController()
@@ -73,20 +72,19 @@ fun PelatihanScreen(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = Modifier,
         bottomBar = { BottomNavigationBar(navController = navController, selectedItem = selectedItem) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .background(colorResource(id = R.color.background))
+                .padding(paddingValues)
         ) {
             Column(
                 modifier = Modifier
                     .padding(horizontal = 35.dp)
             ) {
-
                 Text(
                     text = "Pelatihan",
                     fontSize = 18.sp,
@@ -105,10 +103,7 @@ fun PelatihanScreen(
                     modifier = Modifier.padding(top = 8.dp)
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-                KategoriChips()
-                Spacer(modifier = Modifier.height(16.dp))
-
+                Spacer(modifier = Modifier.height(28.dp))
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxSize()
@@ -122,47 +117,6 @@ fun PelatihanScreen(
     }
 }
 
-@Composable
-fun KategoriChips() {
-    val categories = listOf("Kacang Tanah", "Kacang Polong", "Jagung", "Gandum", "Kedelai")
-    var selectedCategory by remember { mutableStateOf(categories[0]) }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState()),
-        horizontalArrangement = Arrangement.spacedBy(14.dp)
-    ) {
-        categories.forEach { category ->
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = if (category == selectedCategory) colorResource(R.color.green)
-                        else colorResource(R.color.white),
-                        shape = RoundedCornerShape(6.dp)
-                    )
-                    .clickable { selectedCategory = category }
-                    .border(
-                        width = 1.dp,
-                        color = colorResource(R.color.green),
-                        shape = RoundedCornerShape(6.dp)
-                    )
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
-            ) {
-                Text(
-                    text = category,
-                    color = if (category == selectedCategory) colorResource(R.color.white)
-                    else colorResource(R.color.gray_bookmark),
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = poppinsFontFamily,
-                    lineHeight = 20.sp,
-                    letterSpacing = (-0.24).sp
-                )
-            }
-        }
-    }
-}
 
 @Composable
 private fun CardPelatihanKategori(navController: NavController) {
@@ -180,6 +134,7 @@ private fun CardPelatihanKategori(navController: NavController) {
         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.white))
     ) {
         Column {
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -278,9 +233,7 @@ private fun CardPelatihanKategori(navController: NavController) {
                         modifier = Modifier
                     ) {
                         CircularProgressIndicator(
-                            progress = {
-                                progressFraction // Perbaikan di sini juga
-                            },
+                            progress = { progressFraction },
                             modifier = Modifier
                                 .width(44.dp)
                                 .height(44.dp),
@@ -301,7 +254,6 @@ private fun CardPelatihanKategori(navController: NavController) {
         }
     }
 }
-
 
 
 

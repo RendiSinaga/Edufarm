@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -48,7 +46,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.edufarm.navigation.Routes
-import com.example.edufarm.ui.components.CategoryChip
 import com.example.edufarm.ui.components.SearchBar
 import com.example.edufarm.ui.components.TopBar
 import com.example.edufarm.ui.theme.EdufarmTheme
@@ -71,7 +68,7 @@ fun BookmarkScreen(modifier: Modifier = Modifier, navController: NavController) 
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(R.color.background))
-            .padding(start = 35.dp, end = 35.dp, top = 5.dp)
+            .padding(35.dp)
     ) {
         TopBar(
             title = "Simpan Pelatihan",
@@ -80,46 +77,15 @@ fun BookmarkScreen(modifier: Modifier = Modifier, navController: NavController) 
         Spacer(modifier = Modifier.height(16.dp))
 
         SearchBar(placeholder = "Cari Pelatihan")
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Kategori",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = poppinsFontFamily,
-            letterSpacing = (-0.24).sp,
-            lineHeight = 20.sp,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        CategoryChips()
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(28.dp))
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxSize()
         ) {
             items(5) {
                 CardPelatihanBookmark(navController)
+                Spacer(modifier = Modifier.height(16.dp))
             }
-        }
-    }
-}
-
-@Composable
-fun CategoryChips(modifier: Modifier = Modifier) {
-    val categories = listOf("Kacang Tanah", "Kacang Polong", "Jagung", "Gandum", "Kedelai", "Padi")
-    var selectedCategory by remember { mutableStateOf<String?>(null) }
-
-    LazyRow(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(14.dp)
-    ) {
-        items(categories) { category ->
-            CategoryChip(
-                category = category,
-                isSelected = category == selectedCategory,
-                onClick = { selectedCategory = category }
-            )
         }
     }
 }

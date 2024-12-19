@@ -113,15 +113,14 @@ fun ContentScreen(navController: NavController) {
                     .fillMaxSize()
                     .padding(horizontal = 35.dp)
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 CardLiveScrollable()
-                Spacer(modifier = Modifier.height(10.dp))
                 KategoriBertani()
                 Spacer(modifier = Modifier.height(6.dp))
                 SelectKategori(navController)
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 RekomendasiPelatihan(navController)
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 LazyColumn(
                     modifier = Modifier

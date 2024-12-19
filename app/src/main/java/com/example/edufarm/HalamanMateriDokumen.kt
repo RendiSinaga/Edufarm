@@ -118,7 +118,7 @@ fun MateriDokumenScreen(id: Int?, title: String?, navController: NavController) 
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, bottom = 50.dp)
+                    .padding(top = 20.dp, bottom = 60.dp)
                     .height(40.dp)
             ) {
                 Text(

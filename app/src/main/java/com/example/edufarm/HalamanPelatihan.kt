@@ -2,9 +2,7 @@ package com.example.edufarm
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -93,13 +90,18 @@ fun PelatihanScreen(
                     modifier = Modifier.padding(top = 8.dp)
                 )
 
+                Spacer(modifier = Modifier.height(16.dp))
+                SearchBar(
+                    placeholder = "Cari Pelatihan",
+                )
+
                 Spacer(modifier = Modifier.height(28.dp))
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(5) {
                         CardPelatihanKategori(navController)
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
             }
@@ -128,7 +130,7 @@ private fun CardPelatihanKategori(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp)
+                    .height(150.dp)
                     .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
             ) {
                 Image(
@@ -188,7 +190,9 @@ private fun CardPelatihanKategori(navController: NavController) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 5.dp)
                 ) {
                     Button(
                         onClick = { navController.navigate(Routes.HALAMAN_SUB_MATERI) },

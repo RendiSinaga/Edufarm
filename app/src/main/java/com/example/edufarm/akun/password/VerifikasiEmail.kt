@@ -66,7 +66,8 @@ fun VerifikasiEmailScreen(navController: NavController, modifier: Modifier = Mod
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.background)),
+            .background(colorResource(id = R.color.background))
+            .padding(top = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

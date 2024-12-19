@@ -57,8 +57,7 @@ fun MateriVideoScreen(navController: NavController) {
             darkIcons = true
         )
     }
-   
-    // Kontrol orientasi layar
+
     val activity = (LocalContext.current as? Activity)
     LaunchedEffect(isFullscreen) {
         (context as? Activity)?.let { activity ->
@@ -75,8 +74,8 @@ fun MateriVideoScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(R.color.background))
+            .padding(top = 30.dp)
     ) {
-        // Tampilkan TopBar jika tidak dalam fullscreen
         if (!isFullscreen) {
             Column(
                 modifier = Modifier
@@ -89,8 +88,6 @@ fun MateriVideoScreen(navController: NavController) {
                 )
             }
         }
-
-        // Area video
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -98,7 +95,6 @@ fun MateriVideoScreen(navController: NavController) {
                 .padding(if (isFullscreen) 16.dp else 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            // VideoView dan kontrol fullscreen
             if (isPlaying) {
                 AndroidView(
                     factory = { ctx ->
@@ -106,10 +102,8 @@ fun MateriVideoScreen(navController: NavController) {
                             setVideoURI(videoUri)
                             setOnPreparedListener { mediaPlayer ->
                                 mediaPlayer.isLooping = true
-                                start() // Video mulai setelah tombol play ditekan
+                                start()
                             }
-
-                            // Tambahkan MediaController untuk kontrol video
                             val mediaController = MediaController(ctx).apply {
                                 setAnchorView(this@apply)
                             }

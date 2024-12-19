@@ -95,32 +95,43 @@ fun ContentScreen(navController: NavController) {
         topBar = {
             InfoCard(
                 navController = navController,
-                hai = "Hai,",
-                title = "Petani👋",
-                deskripsi = "Ayo kita belajar bertani bersama!"
+                placeholder = "Cari Pelatihan",
+                onSearch = { query ->
+                    println("query dari beranda: $query")
+                }
             )
         },
         bottomBar = { BottomNavigationBar(navController, selectedItem) }
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .padding(paddingValues)
                 .background(color = colorResource(R.color.background))
-                .fillMaxSize()
-        ){
-            Spacer(modifier = Modifier.height(16.dp))
-            CardLiveScrollable()
-            Spacer(modifier = Modifier.height(16.dp))
-            KategoriBertani()
-            Spacer(modifier = Modifier.height(6.dp))
-            SelectKategori(navController)
-            Spacer(modifier = Modifier.height(16.dp))
-            RekomendasiPelatihan(navController)
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn{
-                items(5) {
-                    CardPelatihanBeranda(navController)
-                    Spacer(modifier = Modifier.height(16.dp))
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 35.dp)
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                CardLiveScrollable()
+                Spacer(modifier = Modifier.height(10.dp))
+                KategoriBertani()
+                Spacer(modifier = Modifier.height(6.dp))
+                SelectKategori(navController)
+                Spacer(modifier = Modifier.height(16.dp))
+                RekomendasiPelatihan(navController)
+                Spacer(modifier = Modifier.height(16.dp))
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    items(5) {
+                        CardPelatihanBeranda(navController)
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
         }
@@ -128,82 +139,137 @@ fun ContentScreen(navController: NavController) {
 }
 
 @Composable
-fun SearchBarBeranda(
+fun InfoCard(
+    navController: NavController,
     placeholder: String,
     onSearch: (String) -> Unit
 ) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
-
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(45.dp)
-            .background(
-                color = colorResource(R.color.white),
-                shape = RoundedCornerShape(10.dp)
-            )
-            .border(
-                width = 1.dp,
-                color = colorResource(R.color.green),
-                shape = RoundedCornerShape(10.dp)
-            )
-            .padding(horizontal = 16.dp),
-        contentAlignment = Alignment.CenterStart
+            .height(175.dp),
+        shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.green))
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 37.dp)
+                .padding(top = 40.dp)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.search),
-                contentDescription = "Search Icon",
-                tint = colorResource(R.color.gray_live),
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-
-            BasicTextField(
-                value = searchQuery,
-                onValueChange = {
-                    searchQuery = it
-                    onSearch(it.text)
-                },
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                textStyle = TextStyle(
-                    fontSize = 14.sp,
-                    color = colorResource(R.color.gray_text)
-                ),
-                decorationBox = { innerTextField ->
-                    if (searchQuery.text.isEmpty()) {
-                        Text(
-                            text = placeholder,
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                color = colorResource(R.color.gray_text),
-                                fontWeight = FontWeight.Normal
-                            )
-                        )
-                    }
-                    innerTextField()
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Hai, ",
+                    fontSize = 18.sp,
+                    color = colorResource(id = R.color.background),
+                    fontFamily = poppinsFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(3.dp)
+                )
+
+                Text(
+                    text = "Petani👋",
+                    fontSize = 18.sp,
+                    color = colorResource(id = R.color.background),
+                    fontFamily = poppinsFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(3.dp)
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                IconButton(onClick = { navController.navigate(Routes.HALAMAN_BOOKMARK) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.bookmark_putih),
+                        contentDescription = "Bookmark",
+                        tint = colorResource(id = R.color.white),
+                        modifier = Modifier.size(24.dp)
+                    )
                 }
+            }
+            Text(
+                text = "Ayo kita belajar bertani bersama!",
+                fontSize = 13.sp,
+                fontFamily = poppinsFontFamily,
+                fontWeight = FontWeight.Medium,
+                color = colorResource(id = R.color.background),
+                modifier = Modifier.offset(y = (-6).dp)
             )
+            // Search bar
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(45.dp)
+                    .background(
+                        color = colorResource(R.color.white),
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = colorResource(R.color.green),
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .padding(horizontal = 16.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search),
+                        contentDescription = "Search Icon",
+                        tint = colorResource(id = R.color.gray_live),
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    BasicTextField(
+                        value = searchQuery,
+                        onValueChange = {
+                            searchQuery = it
+                            onSearch(it.text)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontSize = 14.sp,
+                            color = colorResource(R.color.gray_text)
+                        ),
+                        decorationBox = { innerTextField ->
+                            if (searchQuery.text.isEmpty()) {
+                                Text(
+                                    text = placeholder,
+                                    style = TextStyle(
+                                        fontSize = 14.sp,
+                                        color = colorResource(R.color.gray_text),
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                )
+                            }
+                            innerTextField()
+                        }
+                    )
+                }
+            }
         }
     }
 }
 
+
 @Composable
 fun CardLiveScrollable() {
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 26.dp) // Tambahkan padding dari tepi layar
+        contentPadding = PaddingValues(bottom = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier.fillMaxWidth()
     ) {
         items(liveSessions) { session ->
             Box(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                modifier = Modifier.width(340.dp)
             ) {
                 CardLive(session)
             }
@@ -218,8 +284,9 @@ fun CardLive(session: LiveSession) {
 
     Card(
         modifier = Modifier
-            .width(320.dp)
-            .padding(vertical = 8.dp),
+            .fillMaxWidth()
+            .padding(10.dp)
+            .padding(vertical = 6.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 15.dp),
         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.card_notif))
@@ -350,7 +417,6 @@ fun KategoriBertani() {
         fontFamily = poppinsFontFamily,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 35.dp)
     )
 }
 
@@ -358,22 +424,23 @@ fun KategoriBertani() {
 fun SelectKategori(navController: NavController) {
     LazyRow(
         modifier = Modifier
-            .padding(horizontal = 36.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(listOf(
-            Pair(R.drawable.kacang_tanah, "Kacang Tanah"),
-            Pair(R.drawable.kacang_polong, "Kacang Polong"),
-            Pair(R.drawable.padi, "Padi"),
-            Pair(R.drawable.jagung, "Jagung"),
-            Pair(R.drawable.baru_2, "Gandum"),
-            Pair(R.drawable.kacang_tanah, "Kacang Tanah"),
-            Pair(R.drawable.kacang_polong, "Kacang Polong"),
-            Pair(R.drawable.padi, "Padi"),
-            Pair(R.drawable.jagung, "Jagung"),
-            Pair(R.drawable.baru_2, "Gandum")
-        )) { item ->
+        items(
+            listOf(
+                Pair(R.drawable.kacang_tanah, "Kacang Tanah"),
+                Pair(R.drawable.kacang_polong, "Kacang Polong"),
+                Pair(R.drawable.padi, "Padi"),
+                Pair(R.drawable.jagung, "Jagung"),
+                Pair(R.drawable.baru_2, "Gandum"),
+                Pair(R.drawable.kacang_tanah, "Kacang Tanah"),
+                Pair(R.drawable.kacang_polong, "Kacang Polong"),
+                Pair(R.drawable.padi, "Padi"),
+                Pair(R.drawable.jagung, "Jagung"),
+                Pair(R.drawable.baru_2, "Gandum")
+            )
+        ) { item ->
             KategoriItem(
                 navController,
                 iconRes = item.first,
@@ -431,8 +498,7 @@ fun KategoriItem(
 fun RekomendasiPelatihan(navController: NavController) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 37.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
@@ -453,72 +519,6 @@ fun RekomendasiPelatihan(navController: NavController) {
 }
 
 @Composable
-fun InfoCard(hai: String, title: String, deskripsi: String, navController: NavController) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(132.dp),
-        shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
-        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.green))
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 37.dp)
-                .padding(top = 5.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = hai,
-                    fontSize = 18.sp,
-                    color = colorResource(id = R.color.background),
-                    fontFamily = poppinsFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(3.dp)
-                )
-
-                Text(
-                    text = title,
-                    fontSize = 18.sp,
-                    color = colorResource(id = R.color.background),
-                    fontFamily = poppinsFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(3.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                IconButton(onClick = {navController.navigate(Routes.HALAMAN_BOOKMARK)}) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.bookmark_putih),
-                        contentDescription = "Bookmark",
-                        tint = colorResource(id = R.color.white),
-                        modifier = Modifier
-                            .size(24.dp)
-                    )
-                }
-            }
-            Text(
-                text = deskripsi,
-                fontSize = 13.sp,
-                fontFamily = poppinsFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = colorResource(id = R.color.background),
-                modifier = Modifier.offset(y = (-6).dp)
-            )
-            SearchBarBeranda(placeholder = "Cari Pelatihan"
-            ){ query ->
-
-                println("query dari info card: $query")
-            }
-            Spacer(modifier = Modifier.padding(bottom = 23.dp))
-        }
-    }
-}
-
-@Composable
 private fun CardPelatihanBeranda(navController: NavController) {
     var isBookmarked by remember { mutableStateOf(false) }
     val progressCurrent = 1
@@ -527,17 +527,17 @@ private fun CardPelatihanBeranda(navController: NavController) {
 
     Box(
         modifier = Modifier
-            .padding(horizontal = 35.dp),
+            .fillMaxWidth()
     ) {
         Card(
             modifier = Modifier
-                .size(width = 330.dp, height = 260.dp),
+                .fillMaxWidth()
+                .size(260.dp),
             shape = RoundedCornerShape(16.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.white))
         ) {
             Column {
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -622,14 +622,14 @@ private fun CardPelatihanBeranda(navController: NavController) {
                             )
                         }
                         Text(
-                                text = "Progres Materi",
-                                fontSize = 11.sp,
-                                fontFamily = poppinsFontFamily,
-                                fontWeight = FontWeight.W400,
-                                color = Color.Black,
-                                textAlign = TextAlign.End,
-                                modifier = Modifier
-                                    .offset(x = 15.dp)
+                            text = "Progres Materi",
+                            fontSize = 11.sp,
+                            fontFamily = poppinsFontFamily,
+                            fontWeight = FontWeight.W400,
+                            color = Color.Black,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier
+                                .offset(x = 15.dp)
                         )
 
                         Box(

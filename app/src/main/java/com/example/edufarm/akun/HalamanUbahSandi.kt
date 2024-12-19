@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.edufarm.R
+import com.example.edufarm.navigation.Routes
 import com.example.edufarm.ui.components.BottomNavigationBar
 import com.example.edufarm.ui.components.ConfirmationDialog
 import com.example.edufarm.ui.components.TopBar
@@ -143,10 +144,7 @@ fun UbahSandiScreen(navController: NavController) {
             ConfirmationDialog(
                 message = "Apakah Kamu Yakin Ingin Mengubahnya?",
                 onDismissRequest = { showDialog = false },
-                onConfirm = {
-                    showDialog = false
-                    // Lakukan aksi simpan perubahan di sini
-                },
+                onConfirm = {navController.navigate(Routes.NOTIFIKASI_SANDI) },
                 onCancel = { showDialog = false }
             )
         }

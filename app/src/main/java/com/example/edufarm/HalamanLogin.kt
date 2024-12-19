@@ -70,22 +70,20 @@ fun LoginScreen(navController: NavController,modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.background)),
+            .background(colorResource(id = R.color.background))
+            .padding(top = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Edu Farm Logo",
             modifier = Modifier
                 .size(220.dp)
-                .padding(top = 26.dp)
-                .padding(bottom = 35.dp)
+                .padding(top = 40.dp, bottom = 35.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
-
 
         Box(
             modifier = Modifier
@@ -297,13 +295,13 @@ fun LoginScreen(navController: NavController,modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(26.dp))
 
                 // Or Separator
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .height(1.dp)
-                        .background(Color.Gray))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(1.dp)
+                            .background(Color.Gray)
+                    )
                     Text(
                         text = " atau masuk dengan ",
                         modifier = Modifier.padding(horizontal = 8.dp),
@@ -312,10 +310,12 @@ fun LoginScreen(navController: NavController,modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Medium,
                         color = Color.Gray
                     )
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .height(1.dp)
-                        .background(Color.Gray))
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(1.dp)
+                            .background(Color.Gray)
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(19.dp))
@@ -328,8 +328,8 @@ fun LoginScreen(navController: NavController,modifier: Modifier = Modifier) {
                     IconButton(onClick = { /* handle Google login */ }) {
                         Image(
                             painter = painterResource(id = R.drawable.google_logo),
-                            contentDescription = "Google",
-                            modifier = Modifier.size(22.dp)
+                            contentDescription = "Google Login",
+                            modifier = Modifier.size(32.dp)
                         )
                     }
                 }

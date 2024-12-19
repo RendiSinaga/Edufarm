@@ -1,7 +1,5 @@
 package com.example.edufarm.akun
 
-import android.content.Intent
-import android.provider.MediaStore
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,15 +17,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -57,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.edufarm.R
+import com.example.edufarm.navigation.Routes
 import com.example.edufarm.ui.components.BottomNavigationBar
 import com.example.edufarm.ui.components.ConfirmationDialog
 import com.example.edufarm.ui.components.TopBar
@@ -68,7 +64,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun HalamanEditProfile(navController: NavController, modifier: Modifier = Modifier) {
     var showDialog by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("petanimuda@gmail.com") }
     var phoneNumber by remember { mutableStateOf("") }
     val selectedItem = remember { mutableStateOf("Akun") }
     var showPopup by remember { mutableStateOf(false) }
@@ -87,7 +82,7 @@ fun HalamanEditProfile(navController: NavController, modifier: Modifier = Modifi
     Scaffold(
         modifier = modifier,
         bottomBar = {
-            if (showBottomNav) { // Tampilkan BottomNavigation hanya jika showBottomNav = true
+            if (showBottomNav) {
                 BottomNavigationBar(navController, selectedItem)
             }
         }
@@ -102,7 +97,7 @@ fun HalamanEditProfile(navController: NavController, modifier: Modifier = Modifi
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
+                    .height(190.dp)
                     .background(
                         color = colorResource(id = R.color.green),
                         shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
@@ -212,40 +207,7 @@ fun HalamanEditProfile(navController: NavController, modifier: Modifier = Modifi
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = "Email",
-                    fontFamily = poppinsFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-                BasicTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .border(
-                            1.dp,
-                            colorResource(id = R.color.green_logo),
-                            RoundedCornerShape(15.dp)
-                        )
-                        .padding(horizontal = 16.dp),
-                    decorationBox = { innerTextField ->
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            innerTextField()
-                        }
-                    }
-                )
 
-                Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
                     text = "Nomor Telepon",
@@ -315,10 +277,7 @@ fun HalamanEditProfile(navController: NavController, modifier: Modifier = Modifi
             ConfirmationDialog(
                 message = "Apakah Kamu Yakin Ingin Mengubahnya?",
                 onDismissRequest = { showDialog = false },
-                onConfirm = {
-                    showDialog = false
-                    // Lakukan aksi simpan data
-                },
+                onConfirm = { navController.navigate(Routes.NOTIFIKASI_PROFILE) },
                 onCancel = { showDialog = false }
             )
         }

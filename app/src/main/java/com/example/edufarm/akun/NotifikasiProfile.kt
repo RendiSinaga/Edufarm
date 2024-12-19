@@ -1,8 +1,9 @@
-package com.example.edufarm.akun.password
+package com.example.edufarm.akun
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +37,7 @@ import com.example.edufarm.ui.theme.poppinsFontFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun NotifikasiPasswordScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun NotifikasiProfileScreen(navController: NavController) {
     val systemUiController = rememberSystemUiController()
     val topBarColor = colorResource(id = R.color.background)
 
@@ -47,57 +48,61 @@ fun NotifikasiPasswordScreen(navController: NavController, modifier: Modifier = 
         )
     }
 
-
-    Column(
-        modifier = modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.background))
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center // Memastikan semua konten di dalam Column terpusat secara vertikal
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ilustrasi),
-            contentDescription = "Edu Farm Logo",
-            modifier = Modifier
-                .size(330.dp)
-                .padding(top = 26.dp)
-                .fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Yeayy!!, Kata sandi berhasil diubah",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = poppinsFontFamily,
-                color = colorResource(id = R.color.black),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+            Image(
+                painter = painterResource(id = R.drawable.ilustrasi),
+                contentDescription = "Edu Farm Logo",
+                modifier = Modifier
+                    .size(330.dp)
+                    .padding(top = 26.dp)
+                    .fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = { navController.navigate(Routes.HALAMAN_LOGIN) },
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green)),
-                modifier = Modifier
-                    .width(310.dp)
-                    .height(40.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Kembali Ke Halaman Login",
-                    color = Color.White,
+                    text = "Yeayy!!, Data Profile Kamu Sudah Diperbarui!!",
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = poppinsFontFamily,
-                    fontSize = 16.sp,
+                    color = colorResource(id = R.color.black),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = { navController.navigate(Routes.HALAMAN_AKUN) },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green)),
+                    modifier = Modifier
+                        .width(310.dp)
+                        .height(40.dp)
+                ) {
+                    Text(
+                        text = "Kembali Ke Halaman Akun",
+                        color = Color.White,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = poppinsFontFamily,
+                        fontSize = 16.sp,
+                    )
+                }
             }
         }
     }
@@ -105,11 +110,10 @@ fun NotifikasiPasswordScreen(navController: NavController, modifier: Modifier = 
 
 @Preview(showBackground = true)
 @Composable
-fun NotifikasiPasswordScreenPreview() {
+fun NotifikasiProfileScreenPreview() {
     EdufarmTheme {
-        NotifikasiPasswordScreen(
-            navController = rememberNavController(),
-            modifier = Modifier
+        NotifikasiProfileScreen(
+            navController = rememberNavController()
         )
     }
 }

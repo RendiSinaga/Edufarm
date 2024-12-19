@@ -30,7 +30,7 @@ import com.example.edufarm.ui.theme.poppinsFontFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun IsiMateriScreen(navController: NavController) {
+fun IsiMateriScreen(id: Int?, title: String?, navController: NavController) {
     val systemUiController = rememberSystemUiController()
     val topBarColor = colorResource(id = R.color.background)
 
@@ -44,6 +44,7 @@ fun IsiMateriScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(R.color.background))
+            .padding(top = 30.dp)
     ) {
         TopBar(
             title = "Materi",
@@ -74,7 +75,7 @@ fun IsiMateriScreen(navController: NavController) {
                 .padding(horizontal = 35.dp)
         ) {
             Text(
-                text = "Pemilihan benih kacang tanah",
+                text = "$title",
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 letterSpacing = (-0.24).sp,
@@ -106,6 +107,7 @@ fun IsiMateriScreen(navController: NavController) {
                 fontFamily = poppinsFontFamily,
                 color = colorResource(R.color.black)
             )
+            Spacer(modifier = Modifier.padding(bottom = 30.dp))
         }
     }
 }
@@ -117,6 +119,8 @@ fun PreviewIsiMateriScreen() {
     EdufarmTheme {
         IsiMateriScreen(
             navController = rememberNavController(),
+            id = 1,
+            title = "Pemilihan Benih Kacang Tanah"
         )
     }
 }

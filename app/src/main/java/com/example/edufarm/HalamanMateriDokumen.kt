@@ -36,7 +36,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @Composable
-fun MateriDokumenScreen(navController: NavController) {
+fun MateriDokumenScreen(id: Int?, title: String?, navController: NavController) {
     val listState = rememberLazyListState()
     val isAtBottom = remember {
         derivedStateOf {
@@ -58,14 +58,13 @@ fun MateriDokumenScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(R.color.background))
-            .padding(start = 35.dp, end = 35.dp, top = 5.dp)
+            .padding(start = 35.dp, end = 35.dp, top = 35.dp)
     ) {
         TopBar(
             navController = navController,
             title = "Materi"
         )
         Spacer(modifier = Modifier.height(20.dp))
-
 
         LazyColumn(
             state = listState,
@@ -74,7 +73,7 @@ fun MateriDokumenScreen(navController: NavController) {
         ) {
             item {
                 Text(
-                    text = "Dokumen Tambahan: Penanaman Kacang Tanah",
+                    text = "$title",
                     fontSize = 16.sp,
                     lineHeight = 20.sp,
                     letterSpacing = (-0.24).sp,
@@ -119,7 +118,7 @@ fun MateriDokumenScreen(navController: NavController) {
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp)
+                    .padding(top = 20.dp, bottom = 50.dp)
                     .height(40.dp)
             ) {
                 Text(
@@ -154,7 +153,9 @@ fun MateriDokumenScreen(navController: NavController) {
 fun PreviewMateriDokumenScreen() {
     EdufarmTheme {
         MateriDokumenScreen(
-            navController = rememberNavController()
+            navController = rememberNavController(),
+            id = 1,
+            title = "Dokumen Tambahan : Penanaman Kacang Tanah"
         )
     }
 }

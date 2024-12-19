@@ -65,7 +65,7 @@ fun DaftarScreen(navController: NavController,modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.background))
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 24.dp, vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -91,27 +91,19 @@ fun DaftarScreen(navController: NavController,modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(28.dp))
 
-        // Nama Lengkap Field
         InputField(placeholder = "Nama Lengkap")
 
         Spacer(modifier = Modifier.height(25.dp))
 
-        // Alamat Email Field
         InputField(placeholder = "Alamat Email")
 
         Spacer(modifier = Modifier.height(25.dp))
-
-        // Password Field with Eye Icon
         PasswordField()
 
         Spacer(modifier = Modifier.height(25.dp))
-
-        // No HP Field
         InputField(placeholder = "No. Hp")
 
         Spacer(modifier = Modifier.height(25.dp))
-
-        // Daftar Button
         Button(
             onClick = { navController.navigate(Routes.HALAMAN_NOTIFIKASI_DAFTAR) },
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.green)),
@@ -158,25 +150,27 @@ fun DaftarScreen(navController: NavController,modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Or Separator
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
-                .background(Color.Gray))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+                    .background(Color.Gray)
+            )
             Text(
-                text = " atau daftar dengan ",
+                text = " atau masuk dengan ",
                 modifier = Modifier.padding(horizontal = 8.dp),
-                fontSize = 11.sp,
+                fontSize = 14.sp,
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.Medium,
                 color = Color.Gray
             )
-            Box(modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
-                .background(Color.Gray))
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+                    .background(Color.Gray)
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -189,8 +183,8 @@ fun DaftarScreen(navController: NavController,modifier: Modifier = Modifier) {
             IconButton(onClick = { /* handle Google login */ }) {
                 Image(
                     painter = painterResource(id = R.drawable.google_logo),
-                    contentDescription = "Google",
-                    modifier = Modifier.size(22.dp)
+                    contentDescription = "Google Login",
+                    modifier = Modifier.size(32.dp)
                 )
             }
         }

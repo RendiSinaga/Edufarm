@@ -51,8 +51,8 @@ fun NotifikasiDaftarScreen(navController: NavController, modifier: Modifier = Mo
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .background(colorResource(id = R.color.background)),
+            .background(colorResource(id = R.color.background))
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center // Memastikan semua konten di dalam Column terpusat secara vertikal
     ) {

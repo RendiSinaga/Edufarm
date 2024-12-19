@@ -115,13 +115,13 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(38.dp))
             Text(
-                text = "ablank123@gmail.com",
+                text = "petanimuda12@gmail.com",
                 fontSize = 16.sp,
                 color = Color.Gray,
                 fontFamily = poppinsFontFamily
             )
             Text(
-                text = "+1 515 599 9655",
+                text = "+62 888 999 111",
                 fontSize = 16.sp,
                 color = Color.Gray,
                 fontFamily = poppinsFontFamily
